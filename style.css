@@ -65,7 +65,7 @@ header p {
 }
 .todo-input input:focus {
   outline: none;
-  border-color: var(-primary);
+  border-color: var(--primary);
   box-shadow: 0 0 0 3px rgba(119, 73, 248, 0.15);
 }
 .todo-input button {
@@ -78,8 +78,7 @@ header p {
   cursor: pointer;
   transition: all 0.2s;
 }
-.todo-input button {
-}
+
 .todo-input button:hover {
   background-color: var(--primary-light);
 }
@@ -94,7 +93,7 @@ header p {
   cursor: pointer;
   color: var(--gray);
   border-bottom: 2px solid transparent;
-  transition: all 0, 2s;
+  transition: all 0.2s;
 }
 .filter:hover {
   color: var(--primary);
@@ -120,7 +119,7 @@ header p {
   transition: background-color 0.2s;
 }
 .todo-item:hover {
-  background-color: var(-light);
+  background-color: var(--light);
 }
 .checkbox-container {
   margin-right: 15px;
@@ -141,7 +140,8 @@ header p {
 }
 .todo-checkbox:checked + .checkmark {
   background-color: var(--success);
-  border-color: var (success);
+border-color: var(--success);   
+
 }
 .todo-checkbox:checked + .checkmark::after {
   content: "";
@@ -159,10 +159,12 @@ header p {
   font-size: 1rem;
   transition: all 0.2s;
 }
-.todo-item.completed.todo-item-text {
+.todo-item.completed .todo-item-text {
   text-decoration: line-through;
   color: var(--gray);
 }
+
+
 .delete-btn {
   background: none;
   border: none;

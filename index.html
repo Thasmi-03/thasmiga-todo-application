@@ -19,7 +19,7 @@
  class="todo-input">
 <input type="text" id="task-input" placeholder="What do you need to do?">
 <button id="add-task">
-    <i class="fas fa-plus"></i>
+    <i class="fas fa-plus">+</i>
 </button>
 </div>
 <div class="filters">
@@ -29,7 +29,19 @@
 
 </div>
 
+<div class="todos-container">
+    <ul id="todos-list"></ul>
+    <div class="empty-state hidden">
+        <i class="fas fa-clipboard-list"></i>
+        <p>No tasks here yet</p>
+    </div>
+</div>
 
+
+<footer>
+    <p id="items-left"> 0 items left</p>
+    <button id="clear-completed"> clear-completed</button>
+</footer>
 
 
 </div>

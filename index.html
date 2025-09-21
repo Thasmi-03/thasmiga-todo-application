@@ -1,54 +1,56 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>to-do</title>
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
-<div class="app">
-    <header>
-        <h1>
-            <i class="fas fa-check-circle"></i>
-            My Tasks
-        </h1>
-        <p id="data"></p>
-    </header>
-<div
- class="todo-input">
-<input type="text" id="task-input" placeholder="What do you need to do?">
-<button id="add-task">
-    <i class="fas fa-plus">+</i>
-</button>
-</div>
-<div class="filters">
-    <span class="filter active" data-filter="all">All</span>
-    <span class="filter active" data-filter="active">Active</span>
-    <span class="filter active" data-filter="completed">Completed</span>
+    <div class="app">
+        <header>
+            <h1>
+                <i class="fas fa-check-circle"></i>
+                My Tasks
+            </h1>
+            <p id="data"></p>
+        </header>
+        <div class="todo-input">
+            <input type="text" id="task-input" placeholder="What do you need to do?">
+            <button id="add-task">
+                <i class="fas fa-plus">+</i>
+            </button>
+        </div>
+        <div class="filters">
+            <span class="filter active" data-filter="all">All</span>
+            <span class="filter active" data-filter="active">Active</span>
+            <span class="filter active" data-filter="completed">Completed</span>
 
-</div>
+        </div>
 
-<div class="todos-container">
-    <ul id="todos-list"></ul>
-    <div class="empty-state hidden">
-        <i class="fas fa-clipboard-list"></i>
-        <p>No tasks here yet</p>
+        <div class="todos-container">
+            <ul id="todos-list"></ul>
+            <div class="empty-state hidden">
+                <i class="fas fa-clipboard-list"></i>
+                <p>No tasks here yet</p>
+            </div>
+        </div>
+
+
+        <footer>
+            <p id="items-left"> 0 items left</p>
+            <button id="clear-completed"> clear-completed</button>
+        </footer>
+
+
     </div>
-</div>
-
-
-<footer>
-    <p id="items-left"> 0 items left</p>
-    <button id="clear-completed"> clear-completed</button>
-</footer>
-
-
-</div>
 
 
 
 
     <script src="script.js"></script>
 </body>
+
 </html>

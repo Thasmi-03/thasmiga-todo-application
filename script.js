@@ -11,8 +11,12 @@ const filters = document.querySelectorAll(".filter"); // filter buttons
 let todos = []; // stores list of todos (id, text, completed)
 let currentFilter = "all"; // default filter is all
 
-addTaskBtn.addEventListener("click", () => { addTodo(taskInput.value); }); // add todo when button clicked
-taskInput.addEventListener("keydown", (e) => { if (e.key === "Enter") addTodo(taskInput.value); }); // add todo when press Enter
+addTaskBtn.addEventListener("click", () => {
+  addTodo(taskInput.value);
+}); // add todo when button clicked
+taskInput.addEventListener("keydown", (e) => {
+  if (e.key === "Enter") addTodo(taskInput.value);
+}); // add todo when press Enter
 clearCompletedBtn.addEventListener("click", clearCompleted); // clear completed todos
 
 function addTodo(text) {
@@ -33,20 +37,26 @@ function saveTodos() {
 
 function updateItemsCount() {
   const uncompletedTodos = todos.filter((todo) => !todo.completed); // filter active todos
-  itemsLeft.textContent = `${uncompletedTodos.length} item${uncompletedTodos.length !== 1 ? "s" : ""} left`; // show count
+  itemsLeft.textContent = `${uncompletedTodos.length} item${
+    uncompletedTodos.length !== 1 ? "s" : ""
+  } left`; // show count
 }
 
 function checkEmptyState() {
   const filteredTodos = filterTodos(currentFilter); // filter current todos
-  if (filteredTodos.length === 0) emptyState.classList.remove("hidden"); // show empty msg
+  if (filteredTodos.length === 0)
+    emptyState.classList.remove("hidden"); // show empty msg
   else emptyState.classList.add("hidden"); // hide empty msg
 }
 
 function filterTodos(filter) {
   switch (filter) {
-    case "active": return todos.filter((todo) => !todo.completed); // only active
-    case "completed": return todos.filter((todo) => todo.completed); // only completed
-    default: return todos; // all
+    case "active":
+      return todos.filter((todo) => !todo.completed); // only active
+    case "completed":
+      return todos.filter((todo) => todo.completed); // only completed
+    default:
+      return todos; // all
   }
 }
 
@@ -54,7 +64,7 @@ function renderTodos() {
   todosList.innerHTML = ""; // clear list
   const filteredTodos = filterTodos(currentFilter); // get filtered todos
 
-  filteredTodos.forEach(todo => {
+  filteredTodos.forEach((todo) => {
     const todoItem = document.createElement("li"); // create li
     todoItem.classList.add("todo-item"); // add class
     if (todo.completed) todoItem.classList.add("completed"); // mark completed
@@ -86,7 +96,9 @@ function clearCompleted() {
 }
 
 function toggleTodo(id) {
-  todos = todos.map(todo => todo.id === id ? { ...todo, completed: !todo.completed } : todo); // toggle done
+  todos = todos.map((todo) =>
+    todo.id === id ? { ...todo, completed: !todo.completed } : todo
+  ); // toggle done
   saveTodos(); // save
   renderTodos(); // re-render
 }
@@ -103,13 +115,19 @@ function loadTodos() {
   renderTodos(); // re-render
 }
 
-filters.forEach(filter => {
-  filter.addEventListener("click", () => { setActiveFilter(filter.getAttribute("data-filter")); }); // switch filter
+filters.forEach((filter) => {
+  filter.addEventListener("click", () => {
+    setActiveFilter(filter.getAttribute("data-filter"));
+  }); // switch filter
 });
 
 function setActiveFilter(selectedFilter) {
   currentFilter = selectedFilter; // set current
-  filters.forEach(item => { item.getAttribute("data-filter") === selectedFilter ? item.classList.add("active") : item.classList.remove("active"); }); // update ui
+  filters.forEach((item) => {
+    item.getAttribute("data-filter") === selectedFilter
+      ? item.classList.add("active")
+      : item.classList.remove("active");
+  }); // update ui
   renderTodos(); // re-render
 }
 
@@ -119,4 +137,8 @@ function setData() {
   dateElement.textContent = today.toLocaleDateString("en-US", options); // display date
 }
 
-window.addEventListener("DOMContentLoaded", () => { loadTodos(); updateItemsCount(); setData(); }); // init app
+window.addEventListener("DOMContentLoaded", () => {
+  loadTodos();
+  updateItemsCount();
+  setData();
+}); // init app

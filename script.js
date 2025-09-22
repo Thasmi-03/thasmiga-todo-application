@@ -8,8 +8,8 @@ const emptyState = document.querySelector(".empty-state");
 const dateElement = document.getElementById("date");
 const filters = document.querySelectorAll(".filter");
 
-let todos = [];              // all tasks
-let currentFilter = "all";   // filter state
+let todos = []; // all tasks
+let currentFilter = "all"; // filter state
 
 // Add new task on button click
 addTaskBtn.addEventListener("click", () => {
@@ -29,22 +29,22 @@ function addTodo(text) {
   if (text.trim() === "") return; // ignore empty
 
   const todo = {
-    id: Date.now(),      // unique id
-    text,                // task text
-    completed: false,    // default not done
+    id: Date.now(), // unique id
+    text, // task text
+    completed: false, // default not done
   };
 
-  todos.push(todo);      // add to array
-  saveTodos();           // save to localStorage
-  renderTodos();         // show on screen
-  taskInput.value = "";  // clear input
+  todos.push(todo); // add to array
+  saveTodos(); // save to localStorage
+  renderTodos(); // show on screen
+  taskInput.value = ""; // clear input
 }
 
 // Save todos to localStorage
 function saveTodos() {
   localStorage.setItem("todos", JSON.stringify(todos));
-  updateItemsCount();   // update count
-  checkEmptyState();    // check empty state
+  updateItemsCount(); // update count
+  checkEmptyState(); // check empty state
 }
 
 // Update left items count

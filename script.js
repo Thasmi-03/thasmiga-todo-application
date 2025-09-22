@@ -1,158 +1,188 @@
-// DOM Elements
-const taskInput = document.getElementById("task-input"); // get input box
-const addTaskBtn = document.getElementById("add-task"); // get add button
-const todosList = document.getElementById("todos-list"); // get list area
-const itemsLeft = document.getElementById("items-left"); // get items count text
-const clearCompletedBtn = document.getElementById("clear-completed"); // get clear button
-const emptyState = document.querySelector(".empty-state"); // get empty state div
-const dateElement = document.getElementById("date"); // get date element
-const filters = document.querySelectorAll(".filter"); // get filter buttons
+// Select DOM elements
+const taskInput = document.getElementById("task-input");
+const addTaskBtn = document.getElementById("add-task");
+const todosList = document.getElementById("todos-list");
+const itemsLeft = document.getElementById("items-left");
+const clearCompletedBtn = document.getElementById("clear-completed");
+const emptyState = document.querySelector(".empty-state");
+const dateElement = document.getElementById("date");
+const filters = document.querySelectorAll(".filter");
 
-let todos = []; // store all tasks
-let currentFilter = "all"; // current filter (all/active/completed)
+let todos = [];              // all tasks
+let currentFilter = "all";   // filter state
 
-addTaskBtn.addEventListener("click", () => { // when add button clicked
-  addTodo(taskInput.value); // add new todo
+// Add new task on button click
+addTaskBtn.addEventListener("click", () => {
+  addTodo(taskInput.value);
 });
 
-taskInput.addEventListener("keydown", (e) => { // when typing in input
-  if (e.key === "Enter") addTodo(taskInput.value); // add if Enter pressed
+// Add new task on Enter key
+taskInput.addEventListener("keydown", (e) => {
+  if (e.key === "Enter") addTodo(taskInput.value);
 });
 
-clearCompletedBtn.addEventListener("click", clearCompleted); // clear completed tasks
+// Clear completed tasks
+clearCompletedBtn.addEventListener("click", clearCompleted);
 
-function addTodo(text) { // function to add todo
-  if (text.trim() === "") return; // ignore empty text
+// Add new todo
+function addTodo(text) {
+  if (text.trim() === "") return; // ignore empty
 
-  const todo = { // create todo object
-    id: Date.now(), // unique id
-    text, // todo text
-    completed: false, // not done yet
+  const todo = {
+    id: Date.now(),      // unique id
+    text,                // task text
+    completed: false,    // default not done
   };
 
-  todos.push(todo); // add to list
-  saveTodos(); // save in storage
-  renderTodos(); // show on page
-  taskInput.value = ""; // clear input
+  todos.push(todo);      // add to array
+  saveTodos();           // save to localStorage
+  renderTodos();         // show on screen
+  taskInput.value = "";  // clear input
 }
 
-function saveTodos() { // save tasks
-  localStorage.setItem("todos", JSON.stringify(todos)); // save in browser storage
-  updateItemsCount(); // update left items
-  checkEmptyState(); // show/hide empty state
+// Save todos to localStorage
+function saveTodos() {
+  localStorage.setItem("todos", JSON.stringify(todos));
+  updateItemsCount();   // update count
+  checkEmptyState();    // check empty state
 }
 
-function updateItemsCount() { // count left tasks
-  const uncompletedTodos = todos.filter((todo) => !todo.completed); // filter not done
-  itemsLeft.textContent = `${uncompletedTodos?.length} item${ // show number
-    uncompletedTodos?.length !== 1 ? "s" : "" // add 's' if more than 1
+// Update left items count
+function updateItemsCount() {
+  const uncompletedTodos = todos.filter((todo) => !todo.completed);
+  itemsLeft.textContent = `${uncompletedTodos.length} item${
+    uncompletedTodos.length !== 1 ? "s" : ""
   } left`;
 }
 
-function checkEmptyState() { // check empty list
-  const filteredTodos = filterTodos(currentFilter); // get current filter tasks
-  if (filteredTodos?.length === 0) emptyState.classList.remove("hidden"); // show empty
-  else emptyState.classList.add("hidden"); // hide empty
+// Show/hide empty state text
+function checkEmptyState() {
+  const filteredTodos = filterTodos(currentFilter);
+  if (filteredTodos.length === 0) emptyState.classList.remove("hidden");
+  else emptyState.classList.add("hidden");
 }
 
-function filterTodos(filter) { // filter tasks
+// Return todos by filter type
+function filterTodos(filter) {
   switch (filter) {
-    case "active": return todos.filter((todo) => !todo.completed); // only active
-    case "completed": return todos.filter((todo) => todo.completed); // only completed
-    default: return todos; // all
+    case "active":
+      return todos.filter((todo) => !todo.completed);
+    case "completed":
+      return todos.filter((todo) => todo.completed);
+    default:
+      return todos;
   }
 }
 
-function renderTodos() { // display tasks
-  todosList.innerHTML = ""; // clear list
-  const filteredTodos = filterTodos(currentFilter); // filter tasks
+// Render todos list
+function renderTodos() {
+  todosList.innerHTML = ""; // clear old list
+  const filteredTodos = filterTodos(currentFilter);
 
-  filteredTodos.forEach((todo) => { // loop tasks
-    const todoItem = document.createElement("li"); // create list item
-    todoItem.classList.add("todo-item"); // add class
-    if (todo.completed) todoItem.classList.add("completed"); // mark done
+  filteredTodos.forEach((todo) => {
+    const todoItem = document.createElement("li"); // <li>
+    todoItem.classList.add("todo-item");
+    if (todo.completed) todoItem.classList.add("completed");
 
-    const checkboxContainer = document.createElement("label"); // label for checkbox
+    // Checkbox
+    const checkboxContainer = document.createElement("label");
     checkboxContainer.classList.add("checkbox-container");
 
-    const checkbox = document.createElement("input"); // create checkbox
+    const checkbox = document.createElement("input");
     checkbox.type = "checkbox";
     checkbox.classList.add("todo-checkbox");
-    checkbox.checked = todo.completed; // tick if done
-    checkbox.addEventListener("change", () => toggleTodo(todo.id)); // toggle on change
+    checkbox.checked = todo.completed;
+    checkbox.addEventListener("change", () => toggleTodo(todo.id));
 
-    const checkmark = document.createElement("span"); // custom checkmark
+    const checkmark = document.createElement("span");
     checkmark.classList.add("checkmark");
 
-    checkboxContainer.appendChild(checkbox); // put checkbox in label
+    checkboxContainer.appendChild(checkbox);
     checkboxContainer.appendChild(checkmark);
 
-    const todoText = document.createElement("span"); // task text
+    // Task text
+    const todoText = document.createElement("span");
     todoText.classList.add("todo-item-text");
     todoText.textContent = todo.text;
 
-    const deleteBtn = document.createElement("button"); // delete button
+    // Delete button
+    const deleteBtn = document.createElement("button");
     deleteBtn.classList.add("delete-btn");
-    deleteBtn.innerHTML = '<i class="fas fa-times"></i>'; // cross icon
-    deleteBtn.addEventListener("click", () => deleteTodo(todo.id)); // delete on click
+    deleteBtn.innerHTML = '<i class="fas fa-times"></i>';
+    deleteBtn.addEventListener("click", () => deleteTodo(todo.id));
 
-    todoItem.appendChild(checkboxContainer); // add checkbox
-    todoItem.appendChild(todoText); // add text
-    todoItem.appendChild(deleteBtn); // add delete
-    todosList.appendChild(todoItem); // add to list
+    // Add parts to list item
+    todoItem.appendChild(checkboxContainer);
+    todoItem.appendChild(todoText);
+    todoItem.appendChild(deleteBtn);
+
+    todosList.appendChild(todoItem); // add <li> to list
   });
 }
 
-function clearCompleted() { // remove completed tasks
+// Remove completed todos
+function clearCompleted() {
   todos = todos.filter((todo) => !todo.completed);
   saveTodos();
   renderTodos();
 }
 
-function toggleTodo(id) { // toggle task status
+// Toggle todo complete/not complete
+function toggleTodo(id) {
   todos = todos.map((todo) => {
-    if (todo.id === id) return { ...todo, completed: !todo.completed }; // flip status
+    if (todo.id === id) {
+      return { ...todo, completed: !todo.completed };
+    }
     return todo;
   });
   saveTodos();
   renderTodos();
 }
 
-function deleteTodo(id) { // delete one task
+// Delete a todo
+function deleteTodo(id) {
   todos = todos.filter((todo) => todo.id !== id);
   saveTodos();
   renderTodos();
 }
 
-function loadTodos() { // load from storage
+// Load todos from localStorage
+function loadTodos() {
   const storedTodos = localStorage.getItem("todos");
   if (storedTodos) todos = JSON.parse(storedTodos);
   renderTodos();
 }
 
-filters.forEach((filter) => { // for each filter button
-  filter.addEventListener("click", () => { // when clicked
-    setActiveFilter(filter.getAttribute("data-filter")); // set filter
+// Filter button click
+filters.forEach((filter) => {
+  filter.addEventListener("click", () => {
+    setActiveFilter(filter.getAttribute("data-filter"));
   });
 });
 
-function setActiveFilter(filter) { // change filter
+// Set active filter
+function setActiveFilter(filter) {
   currentFilter = filter;
   filters.forEach((item) => {
-    if (item.getAttribute("data-filter") === filter) item.classList.add("active");
-    else item.classList.remove("active");
+    if (item.getAttribute("data-filter") === filter) {
+      item.classList.add("active");
+    } else {
+      item.classList.remove("active");
+    }
   });
   renderTodos();
 }
 
-function setDate() { // show today’s date
+// Show today’s date
+function setDate() {
   const options = { weekday: "long", month: "short", day: "numeric" };
   const today = new Date();
   dateElement.textContent = today.toLocaleDateString("en-US", options);
 }
 
-window.addEventListener("DOMContentLoaded", () => { // when page loads
-  loadTodos(); // load saved tasks
-  updateItemsCount(); // update count
-  setDate(); // show date
+// Run when page ready
+window.addEventListener("DOMContentLoaded", () => {
+  loadTodos();
+  updateItemsCount();
+  setDate();
 });
